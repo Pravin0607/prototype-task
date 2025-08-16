@@ -2,8 +2,8 @@ from rest_framework import viewsets, permissions
 from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from django.contrib.auth.models import User
-from .models import UserProfile, Service, Task
-from .serializers import UserProfileSerializer, ServiceSerializer, TaskSerializer, UserSerializer
+from .models import UserProfile, Task
+from .serializers import UserProfileSerializer, TaskSerializer, UserSerializer
 
 from rest_framework import permissions
 
@@ -38,10 +38,7 @@ class UserProfileViewSet(viewsets.ModelViewSet):
 			return Response([])
 		return super().list(request, *args, **kwargs)
 
-class ServiceViewSet(viewsets.ModelViewSet):
-	queryset = Service.objects.all()
-	serializer_class = ServiceSerializer
-	permission_classes = [permissions.IsAuthenticated]
+
 
 class TaskViewSet(viewsets.ModelViewSet):
 	queryset = Task.objects.all()
@@ -51,6 +48,3 @@ class TaskViewSet(viewsets.ModelViewSet):
 	def perform_create(self, serializer):
 		serializer.save(user=self.request.user)
 
-# JWT Auth views (use DRF SimpleJWT views)
-# TokenObtainPairView: /api/token/
-# TokenRefreshView: /api/token/refresh/
