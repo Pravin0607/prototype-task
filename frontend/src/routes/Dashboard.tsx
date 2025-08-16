@@ -1,31 +1,18 @@
 
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router";
-import { logout } from "../state/sessionSlice";
 import { setTasks, setLoading, setError } from "../state/tasksSlice";
 import { useAppSelector } from "../state/store";
 import type { AppDispatch } from "../state/store";
 import {
-  SidebarProvider,
-  Sidebar,
-  SidebarContent,
-  SidebarMenu,
-  SidebarMenuItem,
-  SidebarMenuButton,
-  SidebarHeader,
-  SidebarInset,
+  SidebarProvider
 } from "@/components/ui/sidebar";
 import { Card } from "@/components/ui/card";
-import { Home, ListTodo, LogOut, Sun, Moon } from "lucide-react";
+import { AppSidebar } from "@/components/shared/app-sidebar";
 
-const sidebarLinks = [
-  { name: "Home", icon: <Home className="w-5 h-5" />, route: "/" },
-  { name: "Tasks", icon: <ListTodo className="w-5 h-5" />, route: "/dashboard/tasks" },
-  { name: "Logout", icon: <LogOut className="w-5 h-5" />, route: "/logout" },
-];
+
 
 export default function Dashboard() {
   const dispatch = useDispatch<AppDispatch>();
@@ -52,57 +39,11 @@ export default function Dashboard() {
     fetchTasks();
   }, [dispatch]);
 
-  // Add navigation for logout
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    localStorage.removeItem("access_token");
-    localStorage.removeItem("refresh_token");
-    dispatch(logout());
-    navigate("/login");
-  };
-
-  const [dark, setDark] = useState(() => document.documentElement.classList.contains("dark"));
-  const toggleTheme = () => {
-    setDark((d) => !d);
-    document.documentElement.classList.toggle("dark", !dark);
-  };
-
   return (
     <SidebarProvider>
-      <div className="min-h-screen flex flex-col bg-background">
-        <div className="w-full flex justify-end items-center px-6 py-2">
-          <button
-            onClick={toggleTheme}
-            className="bg-transparent border-none outline-none"
-            aria-label="Toggle theme"
-          >
-            {dark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-          </button>
-        </div>
-        <div className="flex flex-1">
-          <Sidebar>
-            <SidebarHeader>
-              <span className="text-xl font-bold tracking-wide">Admin Panel</span>
-            </SidebarHeader>
-            <SidebarContent>
-              <SidebarMenu>
-                {sidebarLinks.map((link) => (
-                  <SidebarMenuItem key={link.name}>
-                    {link.name === "Logout" ? (
-                      <SidebarMenuButton onClick={handleLogout}>
-                        {link.icon}<span>{link.name}</span>
-                      </SidebarMenuButton>
-                    ) : (
-                      <SidebarMenuButton>{link.icon}<span>{link.name}</span></SidebarMenuButton>
-                    )}
-                  </SidebarMenuItem>
-                ))}
-              </SidebarMenu>
-            </SidebarContent>
-          </Sidebar>
-          <SidebarInset>
-            <main className="flex-1 p-10">
+  <div className="min-h-screen flex bg-background w-full">
+    <AppSidebar/>
+            <main className="flex-1 w-full p-2">
               <Card className="p-8 shadow-lg rounded-xl">
                 <h2 className="text-2xl font-bold mb-4">Tasks</h2>
                 {loading ? (
@@ -123,8 +64,6 @@ export default function Dashboard() {
                 )}
               </Card>
             </main>
-          </SidebarInset>
-        </div>
       </div>
     </SidebarProvider>
   );
