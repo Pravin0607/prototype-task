@@ -3,13 +3,34 @@
 ## App Description
 This is a task management system designed to help users efficiently manage their tasks. The application provides features such as task creation, editing and deletion. It also includes user authentication and a responsive user interface.
 
+## How to Use
+
+1. **Sign Up**:
+   - Navigate to the Sign-Up page.
+   - Create a new account by providing your email and password.
+
+2. **Log In**:
+   - Use your credentials to log in.
+   - Upon successful login, you will be redirected to the dashboard.
+
+3. **Dashboard Navigation**:
+   - The dashboard contains two main tabs:
+     - **Home**: View general information or updates.
+     - **Tasks**: Manage your tasks.
+
+4. **Task Management**:
+   - Click on the **Tasks** tab to perform CRUD (Create, Read, Update, Delete) operations on tasks.
+
+5. **Log Out**:
+   - Click on the **Logout** button to securely log out of the application.
+
 ## Tech Stack Used
 ### Frontend
 - **Framework**: React
 - **State Management**: Redux Toolkit
 - **Styling**: Tailwind CSS, shadcn
 - **Build Tool**: Vite
-- **Other Libraries**: React Router, React Hook Form, Axios, Framer Motion
+- **Other Libraries**: React Router, React Hook Form, Axios, Framer Motion, react-hot-toast
 
 ### Backend
 - **Framework**: Django
