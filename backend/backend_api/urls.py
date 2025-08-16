@@ -17,12 +17,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
-from taskusers_api.views import UserProfileViewSet, TaskViewSet
+from taskusers_api.views import UserProfileViewSet, ServiceViewSet, TaskViewSet
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from taskusers_api.register import RegisterUserView
 
 router = routers.DefaultRouter()
 router.register(r'userprofiles', UserProfileViewSet)
+router.register(r'services', ServiceViewSet)
 router.register(r'tasks', TaskViewSet)
 
 urlpatterns = [

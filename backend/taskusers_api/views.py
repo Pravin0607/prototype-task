@@ -2,11 +2,16 @@ from rest_framework import viewsets, permissions
 from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from django.contrib.auth.models import User
-from .models import UserProfile, Task
-from .serializers import UserProfileSerializer, TaskSerializer, UserSerializer
+from .models import UserProfile, Service, Task
+from .serializers import UserProfileSerializer, ServiceSerializer, TaskSerializer, UserSerializer
 
 from rest_framework import permissions
 
+class ServiceViewSet(viewsets.ModelViewSet):
+	queryset = Service.objects.all()
+	serializer_class = ServiceSerializer
+	permission_classes = [permissions.IsAuthenticated]
+	
 class IsOwnerOrAdmin(permissions.BasePermission):
 	def has_object_permission(self, request, view, obj):
 		# Allow admin to do anything
