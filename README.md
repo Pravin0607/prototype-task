@@ -37,6 +37,20 @@ This is a task management system designed to help users efficiently manage their
    python manage.py runserver
    ```
 
+### Backend (Additional Steps for Database Setup)
+5. Set up the MySQL database:
+   - Create a new MySQL database:
+     ```sql
+     CREATE DATABASE task_management;
+     ```
+   - Update the `DATABASES` configuration in `settings.py` to match your MySQL credentials.
+
+6. Apply migrations to set up the database schema:
+   ```bash
+   python manage.py makemigrations
+   python manage.py migrate
+   ```
+
 ### Frontend
 1. Navigate to the `frontend` directory:
    ```bash
