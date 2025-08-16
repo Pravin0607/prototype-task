@@ -56,6 +56,15 @@ This is a task management system designed to help users efficiently manage their
    python manage.py runserver
    ```
 
+7. Create a superuser to access the admin panel:
+   ```bash
+   python manage.py createsuperuser
+   ```
+   Follow the prompts to set up a username, email, and password.
+
+8. Access the admin panel at:
+   [http://127.0.0.1:8000/admin/](http://127.0.0.1:8000/admin/) to manage users and other data.
+
 ### Frontend
 1. Navigate to the `frontend` directory:
    ```bash
@@ -75,3 +84,5 @@ This is a task management system designed to help users efficiently manage their
 
 ## Repository Link
 [GitHub Repository](https://github.com/Pravin0607/prototype-task.git)
+
+

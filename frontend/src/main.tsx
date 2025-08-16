@@ -15,12 +15,14 @@ import PrivateRoute from "./routes/PrivateRoute";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import { initializeAuth } from "./utils/auth";
+import { Toaster } from "react-hot-toast";
 
 // Initialize authentication state from localStorage
 initializeAuth();
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
+    <Toaster/>
     <Provider store={store}>
       <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
         <BrowserRouter>
