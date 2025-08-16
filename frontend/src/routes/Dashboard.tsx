@@ -16,6 +16,7 @@ import { AppSidebar } from "@/components/shared/app-sidebar";
 import TaskForm from "@/components/tasks/TaskForm";
 import TaskList from "@/components/tasks/TaskList";
 import toast from "react-hot-toast";
+import { BASE_URL } from "@/lib/constants";
 
 
 
@@ -33,7 +34,7 @@ export default function Dashboard() {
     dispatch(setError(null));
     try {
       const token = localStorage.getItem("access_token");
-      const res = await axios.get("http://127.0.0.1:8000/api/tasks/", {
+      const res = await axios.get(`${BASE_URL}//api/tasks/`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       dispatch(setTasks(res.data));
@@ -55,7 +56,7 @@ export default function Dashboard() {
     setFormLoading(true);
     try {
       const token = localStorage.getItem("access_token");
-      await axios.post("http://127.0.0.1:8000/api/tasks/", data, {
+      await axios.post(`${BASE_URL}/api/tasks/`, data, {
         headers: { Authorization: `Bearer ${token}` },
       });
       toast.success("Task added!");
@@ -79,7 +80,7 @@ export default function Dashboard() {
     setFormLoading(true);
     try {
       const token = localStorage.getItem("access_token");
-      await axios.put(`http://127.0.0.1:8000/api/tasks/${editTask.id}/`, data, {
+      await axios.put(`${BASE_URL}/api/tasks/${editTask.id}/`, data, {
         headers: { Authorization: `Bearer ${token}` },
       });
       toast.success("Task updated!");
@@ -98,7 +99,7 @@ export default function Dashboard() {
     setFormLoading(true);
     try {
       const token = localStorage.getItem("access_token");
-      await axios.delete(`http://127.0.0.1:8000/api/tasks/${id}/`, {
+      await axios.delete(`${BASE_URL}/api/tasks/${id}/`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       toast.success("Task deleted!");
@@ -115,7 +116,7 @@ export default function Dashboard() {
     setFormLoading(true);
     try {
       const token = localStorage.getItem("access_token");
-      await axios.patch(`http://127.0.0.1:8000/api/tasks/${id}/`, { is_completed: completed }, {
+      await axios.patch(`${BASE_URL}/api/tasks/${id}/`, { is_completed: completed }, {
         headers: { Authorization: `Bearer ${token}` }
       });
       toast.success(completed ? "Task marked as completed!" : "Task marked as pending!");

@@ -14,6 +14,10 @@ import Dashboard from "./routes/Dashboard";
 import PrivateRoute from "./routes/PrivateRoute";
 import { createRoot } from "react-dom/client";
 import "./index.css";
+import { initializeAuth } from "./utils/auth";
+
+// Initialize authentication state from localStorage
+initializeAuth();
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

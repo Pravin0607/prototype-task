@@ -3,19 +3,21 @@ import "../App.css";
 import { useState } from "react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { login, logout } from "../state/sessionSlice";
+import { login } from "../state/sessionSlice";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useNavigate, Link } from "react-router";
 import { Card } from "@/components/ui/card";
 import { motion } from "motion/react";
-import { Sun, Moon } from "lucide-react";
+// import { Sun, Moon } from "lucide-react";
 import { useTheme } from "@/components/theme-provider";
+import { setupTokenRefresh } from "../utils/auth";
+import { BASE_URL } from "@/lib/constants";
 
 export default function LoginPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { theme, setTheme } = useTheme();
+  const { theme } = useTheme();
   const isDark = theme === "dark" || (theme === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -27,21 +29,26 @@ export default function LoginPage() {
     setError("");
     try {
       // Django expects username as email
-      const res = await axios.post("http://127.0.0.1:8000/api/token/", {
+      const res = await axios.post(`${BASE_URL}/api/token/`, {
         username: email,
         password,
       });
       const { access, refresh } = res.data;
+      
+      // Store tokens and user info in localStorage
       localStorage.setItem("access_token", access);
       localStorage.setItem("refresh_token", refresh);
+      localStorage.setItem("user_email", email);
+      
+      // Set authorization header for future requests
+      axios.defaults.headers.common['Authorization'] = `Bearer ${access}`;
+      
+      // Update Redux store
       dispatch(login({ accessToken: access, user: { email } }));
-      // Set auto-logout timer based on token expiry (30 min)
-      setTimeout(() => {
-        localStorage.removeItem("access_token");
-        localStorage.removeItem("refresh_token");
-        dispatch(logout());
-        setError("Session expired. Please login again.");
-      }, 30 * 60 * 1000);
+      
+      // Setup token refresh mechanism
+      setupTokenRefresh();
+      
       // Redirect to dashboard
       navigate("/dashboard");
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -61,9 +68,9 @@ export default function LoginPage() {
         <Card className={`p-8 shadow-xl rounded-xl ${isDark ? "bg-gray-950 text-white" : "bg-white text-gray-900"}`}>
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-2xl font-bold">Sign In</h2>
-            <Button variant="ghost" size="icon" onClick={() => setTheme(isDark ? "light" : "dark") }>
+            {/* <Button variant="ghost" size="icon" onClick={() => setTheme(isDark ? "light" : "dark") }>
               {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-            </Button>
+            </Button> */}
           </div>
           <form className="space-y-4" onSubmit={handleLogin}>
             <div className="flex flex-col gap-2">

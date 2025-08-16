@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { motion } from "motion/react";
+import { BASE_URL } from "@/lib/constants";
 
 const schema = z.object({
   email: z.string().email(),
@@ -35,7 +36,7 @@ export default function SignupPage() {
     setError("");
     setSuccess("");
     try {
-      await axios.post("http://127.0.0.1:8000/api/register/", data);
+      await axios.post(`${BASE_URL}/api/register/`, data);
       setSuccess("Signup successful! Redirecting to login...");
       setTimeout(() => {
         window.location.href = "/login";
@@ -55,7 +56,7 @@ export default function SignupPage() {
         transition={{ duration: 0.6 }}
         className="w-full max-w-md"
       >
-        <Card className="p-8 shadow-xl rounded-xl">
+        <Card className="p-8 shadow-xl rounded-xl bg-card text-card-foreground">
           <h2 className="text-2xl font-bold mb-6 text-center">Sign Up</h2>
           <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
             {/* First/Last name side by side on md+, stacked on mobile */}
@@ -68,9 +69,9 @@ export default function SignupPage() {
                   placeholder="First Name"
                   {...register("first_name")}
                   disabled={isSubmitting}
-                  className="w-full"
+                  className="w-full bg-background text-foreground border-input"
                 />
-                {errors.first_name && <div className="text-red-500 text-xs">{errors.first_name.message}</div>}
+                {errors.first_name && <div className="text-destructive text-xs">{errors.first_name.message}</div>}
               </div>
               <div className="flex flex-col gap-2 w-full">
                 <label htmlFor="last_name" className="text-sm font-medium">Last Name</label>
@@ -80,9 +81,9 @@ export default function SignupPage() {
                   placeholder="Last Name"
                   {...register("last_name")}
                   disabled={isSubmitting}
-                  className="w-full"
+                  className="w-full bg-background text-foreground border-input"
                 />
-                {errors.last_name && <div className="text-red-500 text-xs">{errors.last_name.message}</div>}
+                {errors.last_name && <div className="text-destructive text-xs">{errors.last_name.message}</div>}
               </div>
             </div>
 
@@ -95,9 +96,9 @@ export default function SignupPage() {
                 placeholder="Email"
                 {...register("email")}
                 disabled={isSubmitting}
-                className="w-full"
+                className="w-full bg-background text-foreground border-input"
               />
-              {errors.email && <div className="text-red-500 text-xs">{errors.email.message}</div>}
+              {errors.email && <div className="text-destructive text-xs">{errors.email.message}</div>}
             </div>
 
             {/* Password/Confirm side by side on md+, stacked on mobile */}
@@ -110,9 +111,9 @@ export default function SignupPage() {
                   placeholder="Password"
                   {...register("password")}
                   disabled={isSubmitting}
-                  className="w-full"
+                  className="w-full bg-background text-foreground border-input"
                 />
-                {errors.password && <div className="text-red-500 text-xs">{errors.password.message}</div>}
+                {errors.password && <div className="text-destructive text-xs">{errors.password.message}</div>}
               </div>
               <div className="flex flex-col gap-2 w-full">
                 <label htmlFor="confirm_password" className="text-sm font-medium">Confirm Password</label>
@@ -122,20 +123,24 @@ export default function SignupPage() {
                   placeholder="Confirm Password"
                   {...register("confirm_password")}
                   disabled={isSubmitting}
-                  className="w-full"
+                  className="w-full bg-background text-foreground border-input"
                 />
-                {errors.confirm_password && <div className="text-red-500 text-xs">{errors.confirm_password.message}</div>}
+                {errors.confirm_password && <div className="text-destructive text-xs">{errors.confirm_password.message}</div>}
               </div>
             </div>
 
-            <Button type="submit" className="w-full font-semibold text-lg mt-2" disabled={isSubmitting}>
+            <Button 
+              type="submit" 
+              className="w-full font-semibold text-lg mt-2 bg-primary text-primary-foreground hover:bg-primary/90" 
+              disabled={isSubmitting}
+            >
               {isSubmitting ? "Signing up..." : "Sign Up"}
             </Button>
             <div className="text-center mt-2">
               <span className="text-sm">Already have an account? </span>
-              <a href="/login" className="text-blue-600 hover:underline text-sm">Login</a>
+              <a href="/login" className="text-primary hover:underline text-sm">Login</a>
             </div>
-            {error && <div className="text-red-500 text-xs mt-2">{error}</div>}
+            {error && <div className="text-destructive text-xs mt-2">{error}</div>}
             {success && <div className="text-green-600 text-xs mt-2">{success}</div>}
           </form>
         </Card>
