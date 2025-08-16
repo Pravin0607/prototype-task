@@ -8,7 +8,8 @@ import { setTasks, setLoading, setError } from "../state/tasksSlice";
 import { useAppSelector } from "../state/store";
 import type { AppDispatch } from "../state/store";
 import {
-  SidebarProvider
+  SidebarProvider,
+  SidebarTrigger
 } from "@/components/ui/sidebar";
 import { Card } from "@/components/ui/card";
 import { AppSidebar } from "@/components/shared/app-sidebar";
@@ -132,6 +133,7 @@ export default function Dashboard() {
       <div className="min-h-screen flex bg-background w-full">
         <AppSidebar/>
         <main className="flex-1 w-full p-2 flex flex-col gap-4">
+        <SidebarTrigger/>        
           <Card className="p-6 shadow-lg rounded-xl mb-4">
             <h2 className="text-2xl font-bold mb-4">Add Task</h2>
             <TaskForm

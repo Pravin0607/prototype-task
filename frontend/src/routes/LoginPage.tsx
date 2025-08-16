@@ -10,20 +10,16 @@ import { useNavigate, Link } from "react-router";
 import { Card } from "@/components/ui/card";
 import { motion } from "motion/react";
 import { Sun, Moon } from "lucide-react";
+import { useTheme } from "@/components/theme-provider";
 
 export default function LoginPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [dark, setDark] = useState(false);
+  const { theme, setTheme } = useTheme();
+  const isDark = theme === "dark" || (theme === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-
-  // Toggle dark mode
-  const toggleTheme = () => {
-    setDark((d) => !d);
-    document.documentElement.classList.toggle("dark", !dark);
-  };
 
   // Handle login
   const handleLogin = async (e: React.FormEvent) => {
@@ -55,18 +51,18 @@ export default function LoginPage() {
   };
 
   return (
-    <div className={`min-h-screen flex items-center justify-center bg-gradient-to-br ${dark ? "from-gray-900 to-gray-800" : "from-blue-100 to-white"}`}> 
+    <div className={`min-h-screen flex items-center justify-center bg-gradient-to-br ${isDark ? "from-gray-900 to-gray-800" : "from-blue-100 to-white"}`}> 
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
         className="w-full max-w-md"
       >
-        <Card className={`p-8 shadow-xl rounded-xl ${dark ? "bg-gray-950 text-white" : "bg-white text-gray-900"}`}>
+        <Card className={`p-8 shadow-xl rounded-xl ${isDark ? "bg-gray-950 text-white" : "bg-white text-gray-900"}`}>
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-2xl font-bold">Sign In</h2>
-            <Button variant="ghost" size="icon" onClick={toggleTheme}>
-              {dark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+            <Button variant="ghost" size="icon" onClick={() => setTheme(isDark ? "light" : "dark") }>
+              {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
             </Button>
           </div>
           <form className="space-y-4" onSubmit={handleLogin}>
