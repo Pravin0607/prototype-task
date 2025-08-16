@@ -1,6 +1,6 @@
 
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
@@ -19,7 +19,7 @@ import {
   SidebarInset,
 } from "@/components/ui/sidebar";
 import { Card } from "@/components/ui/card";
-import { Home, ListTodo, LogOut } from "lucide-react";
+import { Home, ListTodo, LogOut, Sun, Moon } from "lucide-react";
 
 const sidebarLinks = [
   { name: "Home", icon: <Home className="w-5 h-5" />, route: "/" },
@@ -62,52 +62,69 @@ export default function Dashboard() {
     navigate("/login");
   };
 
+  const [dark, setDark] = useState(() => document.documentElement.classList.contains("dark"));
+  const toggleTheme = () => {
+    setDark((d) => !d);
+    document.documentElement.classList.toggle("dark", !dark);
+  };
+
   return (
     <SidebarProvider>
-      <div className="min-h-screen flex bg-background">
-        <Sidebar>
-          <SidebarHeader>
-            <span className="text-xl font-bold tracking-wide">Admin Panel</span>
-          </SidebarHeader>
-          <SidebarContent>
-            <SidebarMenu>
-              {sidebarLinks.map((link) => (
-                <SidebarMenuItem key={link.name}>
-                  {link.name === "Logout" ? (
-                    <SidebarMenuButton onClick={handleLogout}>
-                      {link.icon}<span>{link.name}</span>
-                    </SidebarMenuButton>
-                  ) : (
-                    <SidebarMenuButton>{link.icon}<span>{link.name}</span></SidebarMenuButton>
-                  )}
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarContent>
-        </Sidebar>
-        <SidebarInset>
-          <main className="flex-1 p-10">
-            <Card className="p-8 shadow-lg rounded-xl">
-              <h2 className="text-2xl font-bold mb-4">Tasks</h2>
-              {loading ? (
-                <div>Loading...</div>
-              ) : error ? (
-                <div className="text-red-500">{error}</div>
-              ) : (
-                <ul className="space-y-2">
-                  {tasks.map((task) => (
-                    <li key={task.id} className="border rounded p-3 flex justify-between items-center">
-                      <span>{task.title}</span>
-                      <span className={task.is_completed ? "text-green-600" : "text-yellow-600"}>
-                        {task.is_completed ? "Completed" : "Pending"}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </Card>
-          </main>
-        </SidebarInset>
+      <div className="min-h-screen flex flex-col bg-background">
+        <div className="w-full flex justify-end items-center px-6 py-2">
+          <button
+            onClick={toggleTheme}
+            className="bg-transparent border-none outline-none"
+            aria-label="Toggle theme"
+          >
+            {dark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+          </button>
+        </div>
+        <div className="flex flex-1">
+          <Sidebar>
+            <SidebarHeader>
+              <span className="text-xl font-bold tracking-wide">Admin Panel</span>
+            </SidebarHeader>
+            <SidebarContent>
+              <SidebarMenu>
+                {sidebarLinks.map((link) => (
+                  <SidebarMenuItem key={link.name}>
+                    {link.name === "Logout" ? (
+                      <SidebarMenuButton onClick={handleLogout}>
+                        {link.icon}<span>{link.name}</span>
+                      </SidebarMenuButton>
+                    ) : (
+                      <SidebarMenuButton>{link.icon}<span>{link.name}</span></SidebarMenuButton>
+                    )}
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarContent>
+          </Sidebar>
+          <SidebarInset>
+            <main className="flex-1 p-10">
+              <Card className="p-8 shadow-lg rounded-xl">
+                <h2 className="text-2xl font-bold mb-4">Tasks</h2>
+                {loading ? (
+                  <div>Loading...</div>
+                ) : error ? (
+                  <div className="text-red-500">{error}</div>
+                ) : (
+                  <ul className="space-y-2">
+                    {tasks.map((task) => (
+                      <li key={task.id} className="border rounded p-3 flex justify-between items-center">
+                        <span>{task.title}</span>
+                        <span className={task.is_completed ? "text-green-600" : "text-yellow-600"}>
+                          {task.is_completed ? "Completed" : "Pending"}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </Card>
+            </main>
+          </SidebarInset>
+        </div>
       </div>
     </SidebarProvider>
   );
