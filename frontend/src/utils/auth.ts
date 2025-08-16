@@ -2,6 +2,7 @@ import axios from 'axios';
 import { store } from '../state/store';
 import { login, logout } from '../state/sessionSlice';
 import { BASE_URL } from '@/lib/constants';
+import { toast } from 'react-hot-toast';
 
 // Function to initialize auth state from localStorage
 export const initializeAuth = () => {
@@ -92,26 +93,24 @@ export const handleLogout = () => {
   store.dispatch(logout());
 };
 
-// Add axios interceptor to handle 401 Unauthorized responses
+// Updated axios interceptor to logout user if token is expired and show a toast
 axios.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
-    
+
     // If error is 401 Unauthorized and not from a token refresh request
     if (error.response?.status === 401 && 
         originalRequest.url !== `${BASE_URL}/api/token/refresh/`) {
-      
-      // Try to refresh the token
-      const newToken = await refreshAccessToken();
-      
-      if (newToken) {
-        // Update the failed request with new token and retry
-        originalRequest.headers['Authorization'] = `Bearer ${newToken}`;
-        return axios(originalRequest);
-      }
+      // Logout the user if token is expired
+      handleLogout();
+
+      // Show a toast notification
+      toast.error('Session expired. You have been logged out.');
+
+      return Promise.reject(error);
     }
-    
+
     return Promise.reject(error);
   }
 );

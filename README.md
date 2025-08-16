@@ -1,7 +1,7 @@
 # Prototype Task Management System
 
 ## App Description
-This is a task management system designed to help users efficiently manage their tasks. The application provides features such as task creation, editing, deletion, and categorization. It also includes user authentication and a responsive user interface.
+This is a task management system designed to help users efficiently manage their tasks. The application provides features such as task creation, editing and deletion. It also includes user authentication and a responsive user interface.
 
 ## Tech Stack Used
 ### Frontend
@@ -32,23 +32,28 @@ This is a task management system designed to help users efficiently manage their
    ```bash
    pip install -r requirements.txt
    ```
-4. Run the Django development server:
-   ```bash
-   python manage.py runserver
-   ```
-
-### Backend (Additional Steps for Database Setup)
-5. Set up the MySQL database:
+4. Set up the MySQL database:
    - Create a new MySQL database:
      ```sql
-     CREATE DATABASE task_management;
+     CREATE DATABASE myproject_db;
+     ```
+   - Create a MySQL user and grant privileges:
+     ```sql
+     CREATE USER 'project_admin'@'localhost' IDENTIFIED BY '1234';
+     GRANT ALL PRIVILEGES ON task_management.* TO 'project_admin'@'localhost';
+     FLUSH PRIVILEGES;
      ```
    - Update the `DATABASES` configuration in `settings.py` to match your MySQL credentials.
 
-6. Apply migrations to set up the database schema:
+5. Apply migrations to set up the database schema:
    ```bash
    python manage.py makemigrations
    python manage.py migrate
+   ```
+
+6. Run the Django development server:
+   ```bash
+   python manage.py runserver
    ```
 
 ### Frontend
@@ -64,6 +69,9 @@ This is a task management system designed to help users efficiently manage their
    ```bash
    npm run dev
    ```
+
+## Additional Notes
+- Users will be automatically logged out if their session token expires after 30 minutes. A notification will be displayed to inform them about the session expiration.
 
 ## Repository Link
 [GitHub Repository](https://github.com/Pravin0607/prototype-task.git)
