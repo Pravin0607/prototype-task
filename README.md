@@ -82,7 +82,26 @@ This is a task management system designed to help users efficiently manage their
 ## Additional Notes
 - Users will be automatically logged out if their session token expires after 30 minutes. A notification will be displayed to inform them about the session expiration.
 
+### API Testing with Postman
+
+A Postman collection has been provided to simplify API testing. Follow the steps below to use it:
+
+1. Download the Postman collection file:
+   [Prototype Task API.postman_collection.json](./Prototype%20Task%20API.postman_collection.json)
+
+2. Open Postman and import the collection:
+   - Click on "Import" in the top-left corner of Postman.
+   - Select the downloaded `Prototype Task API.postman_collection.json` file.
+
+3. Set up the environment variables:
+   - Add a new environment in Postman.
+   - Define the following variables:
+     - `base_url`: `http://127.0.0.1:8000/api/`
+     - `access_token`: Your JWT access token.
+
+4. Use the imported collection to test the API endpoints.
+   - Ensure the backend server is running before making requests.
+   - Replace placeholder values (e.g., `{{access_token}}`) with actual values.
+
 ## Repository Link
 [GitHub Repository](https://github.com/Pravin0607/prototype-task.git)
-
-
