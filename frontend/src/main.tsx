@@ -12,6 +12,8 @@ import LoginPage from './routes/LoginPage.tsx';
 import SignupPage from './routes/SignupPage.tsx';
 import Dashboard from './routes/Dashboard.tsx';
 import PrivateRoute from './routes/PrivateRoute';
+import Header from './components/ui/Header';
+import Footer from './components/ui/Footer';
 
 
 createRoot(document.getElementById('root')!).render(
@@ -19,9 +21,36 @@ createRoot(document.getElementById('root')!).render(
     <Provider store={store}>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/signup" element={<SignupPage />} />
+          <Route
+            path="/"
+            element={
+              <>
+                <Header />
+                <LandingPage />
+                <Footer />
+              </>
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              <>
+                <Header />
+                <LoginPage />
+                <Footer />
+              </>
+            }
+          />
+          <Route
+            path="/signup"
+            element={
+              <>
+                <Header />
+                <SignupPage />
+                <Footer />
+              </>
+            }
+          />
           <Route
             path="/dashboard"
             element={
