@@ -6,12 +6,14 @@ import { useDispatch } from "react-redux";
 import { login, logout } from "../state/sessionSlice";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useNavigate, Link } from "react-router";
 import { Card } from "@/components/ui/card";
 import { motion } from "motion/react";
 import { Sun, Moon } from "lucide-react";
 
 export default function LoginPage() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [dark, setDark] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -44,7 +46,8 @@ export default function LoginPage() {
         dispatch(logout());
         setError("Session expired. Please login again.");
       }, 30 * 60 * 1000);
-      // Redirect or show success (implement as needed)
+      // Redirect to dashboard
+      navigate("/dashboard");
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setError(err.response?.data?.detail || "Login failed");
@@ -84,6 +87,10 @@ export default function LoginPage() {
             <Button type="submit" className="w-full font-semibold text-lg">
               Login
             </Button>
+            <div className="text-center mt-2">
+              <span className="text-sm">New user? </span>
+              <Link to="/signup" className="text-blue-600 hover:underline text-sm">Register</Link>
+            </div>
             {error && <div className="text-red-500 text-sm mt-2">{error}</div>}
           </form>
         </Card>
