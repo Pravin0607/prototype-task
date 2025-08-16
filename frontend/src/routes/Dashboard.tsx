@@ -3,6 +3,8 @@
 import { useEffect } from "react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router";
+import { logout } from "../state/sessionSlice";
 import { setTasks, setLoading, setError } from "../state/tasksSlice";
 import { useAppSelector } from "../state/store";
 import type { AppDispatch } from "../state/store";
@@ -50,6 +52,16 @@ export default function Dashboard() {
     fetchTasks();
   }, [dispatch]);
 
+  // Add navigation for logout
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("refresh_token");
+    dispatch(logout());
+    navigate("/login");
+  };
+
   return (
     <SidebarProvider>
       <div className="min-h-screen flex bg-background">
@@ -61,7 +73,13 @@ export default function Dashboard() {
             <SidebarMenu>
               {sidebarLinks.map((link) => (
                 <SidebarMenuItem key={link.name}>
-                  <SidebarMenuButton>{link.icon}<span>{link.name}</span></SidebarMenuButton>
+                  {link.name === "Logout" ? (
+                    <SidebarMenuButton onClick={handleLogout}>
+                      {link.icon}<span>{link.name}</span>
+                    </SidebarMenuButton>
+                  ) : (
+                    <SidebarMenuButton>{link.icon}<span>{link.name}</span></SidebarMenuButton>
+                  )}
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>
