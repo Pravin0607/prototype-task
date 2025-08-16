@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Card } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import TaskForm from "@/components/tasks/TaskForm";
 import TaskList from "@/components/tasks/TaskList";
 import EditTaskModal from "@/components/tasks/EditTaskModal";
@@ -121,24 +121,27 @@ export default function TasksSection() {
   };
 
   return (
-    <div className="w-full p-6 space-y-6">
-      <header className="mb-2">
-        <h1 className="text-3xl font-bold">Task Management</h1>
+    <div className="w-full p-4 space-y-6">
+      <header className="mb-1">
+        <h1 className="text-2xl font-bold">Task Management</h1>
         <p className="text-muted-foreground">
           Add, edit, and manage your tasks.
         </p>
       </header>
       
-      <Card className="p-6 shadow-lg rounded-xl mb-4">
-        <h2 className="text-2xl font-bold mb-4">Add Task</h2>
+      <Card className="p-4 shadow-lg rounded-xl mb-2">
+        <CardContent className="p-0">
+            <h2 className="text-2xl font-bold mb-2">Add Task</h2>
         <TaskForm
           onSubmit={handleAddTask}
           loading={formLoading}
         />
+        </CardContent>
       </Card>
       
-      <Card className="p-8 shadow-lg rounded-xl">
-        <h2 className="text-2xl font-bold mb-4">Tasks</h2>
+      <Card className="p-4 shadow-lg rounded-xl">
+        <CardContent className="p-0">
+        <h2 className="text-2xl font-bold mb-2">Tasks</h2>
         {loading ? (
           <div>Loading...</div>
         ) : error ? (
@@ -151,6 +154,7 @@ export default function TasksSection() {
             onToggle={handleToggleTask}
           />
         )}
+        </CardContent>
       </Card>
 
       {editTask && (

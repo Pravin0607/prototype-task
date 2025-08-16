@@ -2,6 +2,7 @@ import { logout } from "@/state/sessionSlice";
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
@@ -49,21 +50,14 @@ export function AppSidebar({ onNavigate, activeView }: AppSidebarProps) {
   const sidebarLinks: SidebarLink[] = [
     { name: "Home", icon: <Home className="w-5 h-5" />, view: 'home' },
     { name: "Tasks", icon: <ListTodo className="w-5 h-5" />, view: 'tasks' },
-    { name: "Logout", icon: <LogOut className="w-5 h-5" />, action: handleLogout },
   ];
   
   return (
     <Sidebar>
       <SidebarHeader>
+        {/* name of the app */}
+        
         <span className="text-xl font-bold tracking-wide">Admin Panel</span>
-        <Button onClick={toggleTheme} size="sm" variant="ghost">
-          {dark ? (
-            <Sun className="w-5 h-5" />
-          ) : (
-            <Moon className="w-5 h-5" />
-          )}
-          <span className="ml-2">Toggle Theme</span>
-        </Button>
       </SidebarHeader>
       <SidebarContent>
         <SidebarMenu>
@@ -79,6 +73,17 @@ export function AppSidebar({ onNavigate, activeView }: AppSidebarProps) {
           ))}
         </SidebarMenu>
       </SidebarContent>
+      <SidebarFooter>
+        {/* add the logout and theme buttton here */}
+        <Button onClick={toggleTheme} variant="outline" className="w-full mt-2">
+          {dark ? <Sun className="w-4 h-4 mr-2" /> : <Moon className="w-4 h-4 mr-2" />}
+          Toggle Theme
+        </Button>
+        <Button onClick={handleLogout} variant="destructive" className="w-full">
+          <LogOut className="w-4 h-4 mr-2" />
+          Logout
+        </Button>
+      </SidebarFooter>
     </Sidebar>
   )
 }
